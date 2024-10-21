@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int        @id @default(autoincrement())
+  createdAt DateTime   @default(now())
+  password  String
+  phone     String     @unique
+  role      Role
+  auditLogs AuditLog[]
+  messages  Message[]
+  orders    Order[]
+}
+
+model Product {
+  id            Int         @id @default(autoincrement())
+  agentId       Int
+  type          ProductType
+  title         String
+  description   String
+  numberOfBeds  Int         @default(0)
+  numberOfSeats Int         @default(0)
+  color         String?
+  price         Decimal
+  K_Ketema      String
+  Woreda        String
+  HouseNumber   String?
+  images        Json
+  available     Boolean     @default(true)
+  createdAt     DateTime    @default(now())
+  auditLogs     AuditLog[]
+  orders        Order[]
+}
+
+model Order {
+  id         Int         @id @default(autoincrement())
+  userId     Int
+  productId  Int
+  status     OrderStatus
+  orderDate  DateTime    @default(now())
+  returnDate DateTime?
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  messages   Message[]
+  product    Product     @relation(fields: [productId], references: [id])
+  user       User        @relation(fields: [userId], references: [id])
+}
+
+model Class {
+  id   Int    @id @default(autoincrement())
+  name String
+  type String
+}
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  orderId   Int
+  senderId  Int
+  message   String
+  timestamp DateTime @default(now())
+  order     Order    @relation(fields: [orderId], references: [id])
+  sender    User     @relation(fields: [senderId], references: [id])
+}
+
+model AuditLog {
+  id            Int      @id @default(autoincrement())
+  userI         Int
+  productI      Int
+  action        String
+  targetAgentId Int
+  timestamp     DateTime @default(now())
+  product       Product  @relation(fields: [productI], references: [id])
+  user          User     @relation(fields: [userI], references: [id])
+}
+
+enum Role {
+  USER
+  AGENT
+  ADMIN
+}
+
+enum ProductType {
+  HOUSE
+  APARTMENT
+  CONDOMINIUM
+  CAR
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}

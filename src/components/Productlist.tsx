@@ -3,8 +3,7 @@ import { checkboxContext } from './providerscripts/contectboxprovider';
 
 interface ProductListProps {
   userPreferences: any[]; 
-  onShowRe: (productId: number) => void; // Update the prop type to accept product ID
-}
+  onShowRe: (productId: number) => void; }
 
 const ProductList: React.FC<ProductListProps> = ({ userPreferences, onShowRe }) => {
  
@@ -47,6 +46,8 @@ const ProductList: React.FC<ProductListProps> = ({ userPreferences, onShowRe }) 
                   <button onClick={() => onShowRe(product.id)} className="text-sm">Details</button>
                 </div>
               </div>
+
+
             </div>
           </a>
         </article>

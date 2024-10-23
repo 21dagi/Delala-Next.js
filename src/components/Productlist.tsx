@@ -1,23 +1,25 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { checkboxContext } from './providerscripts/contectboxprovider'; 
+import { checkboxContext } from './providerscripts/contectboxprovider';
 
 interface ProductListProps {
   userPreferences: any[]; 
-  onShowRe: (productId: number) => void; }
+  onShowRe: (productId: number) => void; 
+}
 
 const ProductList: React.FC<ProductListProps> = ({ userPreferences, onShowRe }) => {
- 
+  // Access context directly
+  const { selectedCheckboxes } = useContext(checkboxContext);
+
   // Define state to manage selected checkboxes
-  const [selectedCheckboxes, setSelectedCheckboxes] = useState(checkboxContext);
-  
-  // Update state when new data is passed and set category to 'CAR'
+  const [displayedCheckboxes, setDisplayedCheckboxes] = useState(selectedCheckboxes);
+
+  // Update state when new data is passed
   useEffect(() => {
-   
-      alert('Context updated, setting category to Car'+ selectedCheckboxes.prices);
-      
-    
-    
-  }, [setSelectedCheckboxes]);
+    // Update the displayed checkboxes when the context changes
+    setDisplayedCheckboxes(selectedCheckboxes);
+
+    alert('Context updated, setting category to Car. Price: ' + selectedCheckboxes.bedroom);
+  }, [selectedCheckboxes]); // Dependency array should contain selectedCheckboxes
 
   return (
     <div className="mx-auto grid max-w-6xl grid-cols-1 gap-6 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
@@ -30,10 +32,10 @@ const ProductList: React.FC<ProductListProps> = ({ userPreferences, onShowRe }) 
 
             <div className="mt-1 p-2">
               <h2 className="text-slate-700">{product.title}</h2>
-              {selectedCheckboxes && selectedCheckboxes.prices?.length > 0 ? (
+              {displayedCheckboxes && displayedCheckboxes.prices?.length > 0 ? (
                 <ul>
-                  <p className="text-white">Price Range: {selectedCheckboxes.price || 'Not selected'}</p>
-                  <p className="text-white">Bedrooms: {selectedCheckboxes.bedroom || 'Not selected'}</p>
+                  <p className="text-white">Price Range: {displayedCheckboxes.price || 'Not selected'}</p>
+                  <p className="text-white">Bedrooms: {displayedCheckboxes.bedroom || 'Not selected'}</p>
                 </ul>
               ) : (
                 <p>No price range selected</p>
@@ -46,14 +48,12 @@ const ProductList: React.FC<ProductListProps> = ({ userPreferences, onShowRe }) 
                   <button onClick={() => onShowRe(product.id)} className="text-sm">Details</button>
                 </div>
               </div>
-
-
             </div>
           </a>
         </article>
       ))}
     </div>
   );
-}
+};
 
 export default ProductList;

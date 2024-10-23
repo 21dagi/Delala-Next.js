@@ -1,14 +1,13 @@
-
 "use client";
-import React from 'react';
-import Head from 'next/head';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Navbar from '@/components/Navbar';
-import Profile from '@/pages/navigation_pages/Profile';// Ensure correct import path
-import Agent_contact from '@/pages/navigation_pages/Agent_contact';
-import Dashboard from '@/pages/navigation_pages/Dashboard';
-import { CheckboxProvider } from '../components/providerscripts/contectboxprovider'; 
-import '../app/globals.css';
+import React from "react";
+import Head from "next/head";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Navbar from "@/components/Navbar";
+import Profile from "@/pages/navigation_pages/Profile"; // Ensure correct import path
+import Agent_contact from "@/pages/navigation_pages/Agent_contact";
+import Dashboard from "@/pages/navigation_pages/Dashboard";
+import { CheckboxProvider } from "../components/providerscripts/contectboxprovider";
+import "../app/globals.css";
 
 export default function Home() {
   return (
@@ -24,7 +23,8 @@ export default function Home() {
             {/* Navbar acts as a layout here */}
             <Route path="/" element={<Navbar />}>
               {/* These routes will be rendered inside the Navbar Outlet */}
-              <Route index element={< Dashboard/>} /> {/* Render UserList on root path */}
+              <Route index element={<Dashboard />} />{" "}
+              {/* Render UserList on root path */}
               <Route path="profile" element={<Profile />} />
               <Route path="agent-contact" element={<Agent_contact />} />
               <Route path="settings" element={<Agent_contact />} />

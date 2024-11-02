@@ -13,6 +13,8 @@ model User {
   password  String
   phone     String     @unique
   role      Role
+  aboutagent     String
+  fullname  String
   auditLogs AuditLog[]
   messages  Message[]
   orders    Order[]

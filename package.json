@@ -29,5 +29,8 @@
     "tailwindcss": "^3.4.13",
     "ts-node": "^10.9.2",
     "typescript": "^5"
+  },
+  "prisma": {
+    "seed": "ts-node --transpile-only prisma/seed.ts"
   }
 }
